@@ -11,6 +11,22 @@ public class Student implements Comparable<Student> {
         this.group = group;
     }
 
+    public Student(String strInitData) throws InvalidFileFormatException {
+        String splited[] = strInitData.split(" ");
+        if (splited.length != 3)
+            throw new InvalidFileFormatException("Invalid file format. Use : Name Group AverageMark\n with space sa delimiter ");
+
+        try {
+            name = splited[0];
+            group = Integer.parseInt(splited[1]);
+            averageMark = Double.parseDouble(splited[2]);
+        }
+        catch(IllegalArgumentException e)
+        {
+            throw new InvalidFileFormatException("Invalid file format. Use : Name Group AverageMark\n with space sa delimiter ");
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -25,15 +41,7 @@ public class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student o) {
-        int groupCompResult = new Integer(this.group).compareTo(o.getGroup());
-        if (groupCompResult != 0)
-            return groupCompResult;
-
-        int averageCompRes = new Double(this.averageMark).compareTo(o.getAverageMark());
-        if (averageCompRes != 0)
-            return averageCompRes;
-
-        return this.getName().compareTo(o.getName());
+        return new Double(this.averageMark).compareTo(o.getAverageMark());
     }
     public String toString()
     {
